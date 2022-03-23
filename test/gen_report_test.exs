@@ -1,4 +1,7 @@
 defmodule GenReportTest do
+  @moduledoc """
+  tests GenReport results
+  """
   use ExUnit.Case
 
   alias GenReport

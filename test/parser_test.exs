@@ -1,4 +1,8 @@
 defmodule GenReport.ParserTest do
+  @moduledoc """
+  tests Parser module results
+  """
+
   use ExUnit.Case
 
   alias GenReport.Parser
