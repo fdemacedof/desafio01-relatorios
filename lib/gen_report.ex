@@ -4,24 +4,44 @@ defmodule GenReport do
   """
   alias GenReport.Parser
 
-  def build() do
-    "gen_report.csv"
+  def build(file_name) do
+    file_name
     |> Parser.parse_file()
-    |> report_acc()
-
-    # |> Enum.map(fn line ->
-    #   %{
-    #     all_hours: %{},
-    #     hours_per_month: %{},
-    #     hours_per_year: %{}
-    #   }
-    # end)
+    |> Enum.reduce(report_acc(), fn line, report -> sum_values(line, report) end)
   end
 
-  defp sum_values([name, hours, day, month, year], report) do
+  defp sum_values([name, hours, day, month, year], %{
+         all_hours: all_hours,
+         hours_per_month: hours_per_month,
+         hours_per_year: hours_per_year
+       }) do
+    [name, hours, _day, month, year] = [
+      String.to_atom(name),
+      String.to_integer(hours),
+      day,
+      get_month(month),
+      String.to_atom(year)
+    ]
+
+    # sum over all hours
+    all_hours = put_in(all_hours[name], all_hours[name] + hours)
+    # sum hours per user per month
+    hours_per_month = put_in(hours_per_month[name][month], hours_per_month[name][month] + hours)
+    # sum hours per user per year
+    hours_per_year = put_in(hours_per_year[name][year], hours_per_year[name][year] + hours)
+
+    %{
+      all_hours: all_hours,
+      hours_per_month: hours_per_month,
+      hours_per_year: hours_per_year
+    }
   end
 
-  def report_acc(list) do
+  def report_acc() do
+    list =
+      "gen_report.csv"
+      |> Parser.parse_file()
+
     users = get_users(list)
     users_map = build_users_map(users)
     users_month_map = build_users_month_map(users)
@@ -60,6 +80,25 @@ defmodule GenReport do
     users
     |> Enum.map(fn x -> {String.to_atom(x), months} end)
     |> Map.new()
+  end
+
+  defp get_month(num) do
+    months = %{
+      "1" => :janeiro,
+      "2" => :fevereiro,
+      "3" => :março,
+      "4" => :abril,
+      "5" => :maio,
+      "6" => :junho,
+      "7" => :julho,
+      "8" => :agosto,
+      "9" => :setembro,
+      "10" => :outubro,
+      "11" => :novembro,
+      "12" => :dezembro
+    }
+
+    months[num]
   end
 
   defp build_users_years_map(list, users) do
