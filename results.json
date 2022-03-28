@@ -1,0 +1,29 @@
+{
+  "excluded": [],
+  "failed": [],
+  "invalid": [],
+  "passed": [
+    {
+      "describe": "parse_file/1",
+      "file": "/home/felipe/Documentos/rocketseat/ignite_elixir/desafios/desafio01-relatorios/test/parser_test.exs",
+      "line": 11,
+      "module": "Elixir.GenReport.ParserTest",
+      "test": "test parse_file/1 parses the file"
+    },
+    {
+      "describe": "build/1",
+      "file": "/home/felipe/Documentos/rocketseat/ignite_elixir/desafios/desafio01-relatorios/test/gen_report_test.exs",
+      "line": 13,
+      "module": "Elixir.GenReportTest",
+      "test": "test build/1 When passing file name return a report"
+    },
+    {
+      "describe": "build/1",
+      "file": "/home/felipe/Documentos/rocketseat/ignite_elixir/desafios/desafio01-relatorios/test/gen_report_test.exs",
+      "line": 19,
+      "module": "Elixir.GenReportTest",
+      "test": "test build/1 When no filename was given, returns an error"
+    }
+  ],
+  "skiped": []
+}
